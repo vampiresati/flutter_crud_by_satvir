@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddTodo extends StatefulWidget {
   const AddTodo({super.key});
@@ -39,11 +42,28 @@ class _AddTodoState extends State<AddTodo> {
     );
   }
 
-  void submitData() {
+  Future<void> submitData() async {
     String title = titleController.text;
     String description = descriptionController.text;
     print(title);
     print(description);
     // Further processing like saving the data
+    Map<String, dynamic> payload = {
+      "title": title,
+      "description": description,
+      "is_completed": false,
+    };
+    print(payload);
+
+    var url = Uri.http('10.0.2.2:3000', '/todos');
+    var response = await http.post(
+      url,
+      body: jsonEncode(payload),
+      headers: {"Content-Type": "application/json"},
+    );
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    //
   }
 }
