@@ -13,6 +13,7 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   List<Map<String, dynamic>> items = [];
+  bool isLoading = true;
   // Navigation function has access to context
   @override
   void initState() {
@@ -24,22 +25,47 @@ class _TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Todo List 2024')),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final todo = items[index];
+      body: Visibility(
+        visible: isLoading,
+        child: const Center(child: CircularProgressIndicator()),
+        replacement: RefreshIndicator(
+          onRefresh: fetchTodos,
+          child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final todo = items[index];
 
-          final bool isCompleted = todo['is_completed'] == true;
+              final bool isCompleted = todo['is_completed'] == true;
 
-          return ListTile(
-            title: Text(todo['title'] ?? ''),
-            subtitle: Text(todo['description'] ?? ''),
-            trailing: Icon(
-              isCompleted ? Icons.check_circle : Icons.circle_outlined,
-              color: isCompleted ? Colors.green : Colors.grey,
-            ),
-          );
-        },
+              return ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: const Color.fromARGB(255, 124, 176, 219),
+                  child: Text(todo['id'].toString()),
+                ),
+                title: Text(todo['title'] ?? ''),
+                subtitle: Text(todo['description'] ?? ''),
+                textColor: isCompleted ? Colors.green : Colors.black,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        // deleteTodo(todo['id']);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.red),
+                      onPressed: () {
+                        // editTodo(todo['id']);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: navigatetoaddpage,
@@ -57,6 +83,10 @@ class _TodoListState extends State<TodoList> {
 
   //
   Future<List<Map<String, dynamic>>> fetchTodos() async {
+    setState(() {
+      isLoading = true;
+    });
+
     try {
       var url = Uri.http('10.0.2.2:3000', '/todos'); // Android emulator
       var response = await http.get(url);
@@ -74,13 +104,24 @@ class _TodoListState extends State<TodoList> {
           items = todos;
         });
 
+        setState(() {
+          isLoading = false;
+        });
+
         return todos;
       } else {
         print('Failed to fetch todos. Status code: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+
         return [];
       }
     } catch (e) {
       print('Error fetching todos: $e');
+      setState(() {
+        isLoading = false;
+      });
       return [];
     }
   }

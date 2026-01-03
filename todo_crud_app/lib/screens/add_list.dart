@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class AddTodo extends StatefulWidget {
@@ -73,6 +74,7 @@ class _AddTodoState extends State<AddTodo> {
     print('Response body: ${response.body}');
     titleController.text = '';
     descriptionController.text = '';
+    Navigator.pop(context);
 
     //
   }
