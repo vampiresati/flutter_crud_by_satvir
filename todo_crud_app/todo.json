@@ -1,0 +1,64 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "Buy groceries",
+      "description": "Purchase fruits, vegetables, milk, and bread from the market",
+      "is_completed": false
+    },
+    {
+      "id": 2,
+      "title": "Complete Flutter practice",
+      "description": "Build a simple CRUD app using Provider",
+      "is_completed": false
+    },
+    {
+      "id": 3,
+      "title": "Morning walk",
+      "description": "Go for a 30-minute morning walk for fitness",
+      "is_completed": true
+    },
+    {
+      "id": 4,
+      "title": "Read a book",
+      "description": "Read at least 20 pages of a self-improvement book",
+      "is_completed": false
+    },
+    {
+      "id": 5,
+      "title": "Practice English speaking",
+      "description": "Practice speaking English for 15 minutes",
+      "is_completed": false
+    },
+    {
+      "id": 6,
+      "title": "Check emails",
+      "description": "Read and reply to important work emails",
+      "is_completed": true
+    },
+    {
+      "id": 7,
+      "title": "Workout",
+      "description": "Do a 20-minute home workout session",
+      "is_completed": false
+    },
+    {
+      "id": 8,
+      "title": "Update resume",
+      "description": "Add recent projects and skills to the resume",
+      "is_completed": false
+    },
+    {
+      "id": 9,
+      "title": "Call family",
+      "description": "Talk to parents and check on their health",
+      "is_completed": true
+    },
+    {
+      "id": 10,
+      "title": "Plan next day",
+      "description": "Create a task list for tomorrow",
+      "is_completed": false
+    }
+  ]
+}
