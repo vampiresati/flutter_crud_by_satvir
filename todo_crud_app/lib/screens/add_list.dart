@@ -62,8 +62,51 @@ class _AddTodoState extends State<AddTodo> {
       headers: {"Content-Type": "application/json"},
     );
     print('Response status: ${response.statusCode}');
+    if (response.statusCode == 201) {
+      print('Todo created successfully!');
+      successMessage();
+    } else {
+      print('Failed to create todo.');
+      failMessage();
+    }
+
     print('Response body: ${response.body}');
+    titleController.text = '';
+    descriptionController.text = '';
 
     //
   }
+
+  //
+  void successMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Todo Added Successfully',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.green, // Green for success
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void failMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Todo Failed', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.red, // Red for failure
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
+
+  //
 }
